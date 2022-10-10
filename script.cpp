@@ -3,8 +3,8 @@
 using namespace std;
 
 void printBoard(char board[3][3]);
-int getRow(char in[2]);
-int getClm(char in[2]);
+int convertRow(char in[2]);
+int convertClm(char in[2]);
 char checkWin(char board[3][3]);
 char checkTie(char board[3][3]);
 
@@ -27,6 +27,7 @@ int main() {
         board[row][clm] = ' ';
       }
     }
+    cout << board[0][0] << endl;
     winner = ' ';
     printBoard(board);
     while(end == false){
@@ -35,8 +36,8 @@ int main() {
         cin >> input;
         bool move = true;
         while(move == true){//input
-          if(board[getRow(input)][getClm(input)] == ' '){
-            board[getRow(input)][getClm(input)] = xMove;
+          if(board[convertRow(input)][convertClm(input)] == ' '){
+            board[convertRow(input)][convertClm(input)] = xMove;
             printBoard(board);
             move = false;
           }else{//illegal move
@@ -54,8 +55,8 @@ int main() {
         cin >> input;
         bool move = true;
         while(move == true){
-          if(board[getRow(input)][getClm(input)] == ' '){
-            board[getRow(input)][getClm(input)] = oMove;
+          if(board[convertRow(input)][convertClm(input)] == ' '){
+            board[convertRow(input)][convertClm(input)] = oMove;
             printBoard(board);
             move = false;
           }else{
@@ -69,16 +70,17 @@ int main() {
 	  end = true;
         }
       }
-      if(end == true){
-        if(checkWin(board) == xMove){
-	  xWins++;
-	  cout << "Congratulations on your " << xWins << "win!" << endl;
+    }
+    if(end == true){
+      if(checkWin(board) == xMove){
+	xWins++;
+        cout << "Congratulations X on your " << xWins << " win!" << endl;
       }else if (checkWin(board) == oMove){
 	oMove++;
-	cout << "Congratulations on your " << oWins << "win!" << endl;
+	cout << "Congratulations O on your " << oWins << " win!" << endl;
       }else{
 	ties++;
-	cout << "This has been your " << ties << "tie" << endl;
+	cout << "This has been your " << ties << " tie" << endl;
       }
     }
     //checks if player plays again
@@ -101,29 +103,16 @@ int main() {
       }
     }
   }
-  }
 }
 
-void printBoard(char board[3][3]) {
-  cout << " a b c" << endl;
-  cout << "1  ";
-  for(int i = 0; i < 3; i++){//row 1
-    cout << board[i][0] << " ";
-  }
-  cout << endl;
-  cout << "2 ";
-  for(int i = 0; i < 3; i++){//row 2
-    cout << board[i][1] << " ";
-  }
-  cout << endl;
-  cout << "3 ";
-  for(int i = 0; i < 3; i++){//row 3
-    cout << board[i][2] << " ";
-  }
-  cout << endl;
+void printBoard(char board[3][3]){
+    cout << "  a b c" << endl;
+    cout << "1 " << board[0][0] << " " << board[1][0] << " " << board[2][0] << endl;
+    cout << "2 " << board[0][1] << " " << board[1][1] << " " << board[2][1] << endl;
+    cout << "3 " << board[0][2] << " " << board[1][2] << " " << board[2][2] << endl;
 }
 
-int getRow(char in[2]) {//gets row
+int convertRow(char in[2]) {//gets row
   if(in[0] == 'a'){
     return 0;
   }else if(in[0] == 'b'){
@@ -135,7 +124,7 @@ int getRow(char in[2]) {//gets row
   }
 }
 
-int getClm(char in[2]) {//gets column
+int convertClm(char in[2]) {//gets column
   if(in[1] == '1'){
     return 0;
   }
