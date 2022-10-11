@@ -1,3 +1,9 @@
+/*Xander Siruno-Nebel
+  C++/Data Structures
+  Galbraith
+  TicTacToe-CPP: plays tictactoe in your console
+ */
+
 #include <iostream>
 
 using namespace std;
@@ -38,6 +44,7 @@ int main() {
         cin >> input;
         bool move = true;
         while(move == true){//input
+	  //for some reason a1 wasn't working, made a weird workaround
 	  if(!convertRow(input) && !convertClm(input)){
 	    if(a1 == ' '){
 	      a1 = 'x';
