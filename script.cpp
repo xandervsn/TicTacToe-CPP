@@ -13,22 +13,24 @@ int main() {
   char input[2];
   bool xTurn = true;
   bool end = false;
-  char winner;
+  char winner = ' ';
   char playing = 'Y';
   int xWins = 0;
   int oWins = 0;
   int ties = 0;
   char oMove = 'O';
   char xMove = 'X';
+  char a1 = ' ';
+  bool legal = true;
 
-  while(playing == 'Y'){//clears board
+  while(playing == 'Y'){
+    //clears board
     for(int clm = 0; clm < 3 ; clm++){
       for(int row = 0; row < 3; row++){
         board[row][clm] = ' ';
       }
     }
     cout << board[0][0] << endl;
-    winner = ' ';
     printBoard(board);
     while(end == false){
       if(xTurn == true){//X turn
@@ -36,15 +38,39 @@ int main() {
         cin >> input;
         bool move = true;
         while(move == true){//input
-          if(board[convertRow(input)][convertClm(input)] == ' '){
-            board[convertRow(input)][convertClm(input)] = xMove;
-            printBoard(board);
-            move = false;
-          }else{//illegal move
-            cout << "Illegal move: you may only play in empty, available spaces " << endl;
-            cin >> input;
-            move = true;
-          }
+	  if(!convertRow(input) && !convertClm(input)){
+	    if(a1 == ' '){
+	      a1 = 'x';
+	      legal = true;
+	    }else{
+	      legal = false;
+	    }
+	  }
+	  if(a1 == 'x'){
+	    board[0][0] = xMove;
+	  }
+	  if(a1 == 'o'){
+	    board[0][0] = oMove;
+	  }
+	  if(legal){
+	    if(!convertRow(input) && !convertClm(input)){
+      	      printBoard(board);
+	      move = false;
+	    }else if(board[convertRow(input)][convertClm(input)] == ' '){
+              board[convertRow(input)][convertClm(input)] = xMove;
+              printBoard(board);
+              move = false;
+            }else{//illegal move
+              cout << "Illegal move: you may only play in empty, available spaces " << endl;
+              cin >> input;
+              move = true;
+            }
+	  }else{
+	    cout << "Illegal move: you may only play in empty, available spaces " << endl;
+	    cin >> input;
+	    move = true;
+	    legal = true;
+	  }
         }
         xTurn = false;
 	if(checkWin(board) == xMove || checkWin(board) == oMove || checkTie(board) == 'y'){
@@ -55,15 +81,39 @@ int main() {
         cin >> input;
         bool move = true;
         while(move == true){
-          if(board[convertRow(input)][convertClm(input)] == ' '){
-            board[convertRow(input)][convertClm(input)] = oMove;
-            printBoard(board);
-            move = false;
-          }else{
-            cout << "Illegal move: you may only play in empty, available spaces " << endl;
-            cin >> input;
-            move = true;
-          }
+	  if(!convertRow(input) && !convertClm(input)){
+	    if(a1 == ' '){
+	      a1 = 'o';
+	      legal = true;
+	    }else{
+	      legal = false;
+	    }
+	  }
+	  if(a1 == 'x'){
+	    board[0][0] = xMove;
+	  }
+	  if(a1 == 'o'){
+	    board[0][0] = oMove;
+	  }
+	  if(legal){
+	    if(!convertRow(input) && !convertClm(input)){
+	      printBoard(board);
+	      move = false;
+	    }else if(board[convertRow(input)][convertClm(input)] == ' '){
+              board[convertRow(input)][convertClm(input)] = oMove;
+              printBoard(board);
+              move = false;
+            }else{
+              cout << "Illegal move: you may only play in empty, available spaces " << endl;
+              cin >> input;
+              move = true;
+            }
+	  }else{
+	    cout << "Illegal move: you may only play in empty, available spaces " << endl;
+	    cin >> input;
+	    move = true;
+	    legal = true;
+	  }
         }
         xTurn = true;
 	if(checkWin(board) == xMove || checkWin(board) == oMove || checkTie(board) == 'y'){
@@ -76,7 +126,7 @@ int main() {
 	xWins++;
         cout << "Congratulations X on your " << xWins << " win!" << endl;
       }else if (checkWin(board) == oMove){
-	oMove++;
+	oWins++;
 	cout << "Congratulations O on your " << oWins << " win!" << endl;
       }else{
 	ties++;
@@ -94,6 +144,7 @@ int main() {
         playAgain = false;
         end = false;
         xTurn = true;
+	a1 = ' ';
       }else if(response == 'N'){//end game
         playing = 'N';
         playAgain = false;
@@ -183,7 +234,7 @@ char checkWin(char board[3][3]) {
   
   char checkTie(char board[3][3]) {
     //sees if board is full
-    if(board[0][0] != ' ' && board[0][1] != ' ' && board[0][2] != ' '
+    if(board[0][1] != ' ' && board[0][0] != ' ' && board[0][2] != ' '
      && board[1][0] != ' ' && board[1][1] != ' ' && board[1][2] != ' '
      && board[2][0] != ' ' && board[2][1] != ' ' && board[2][2] != ' '){
       return 'y';
